@@ -13,11 +13,14 @@ public class Main {
   }
   public static void main(String[] args) {
     Scanner sc = new Scanner(System.in);
-    Article lastArticle = null;
     int articleLastId = 0;
-
+    Article lastArticle = null;
     List<Article> articles = new ArrayList<>();
     makeTestData(articles);
+
+    if(articles.size() > 0) {
+      articleLastId = articles.get(articles.size() - 1).id;
+    }
 
     System.out.println("== 게시판 v 0.1 ==");
     System.out.println("== 프로그램 시작 ==");
