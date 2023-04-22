@@ -5,17 +5,19 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+
+  static void makeTestData(List<Article> articles) {
+    articles.add(new Article(1, "제목1", "내용1"));
+    articles.add(new Article(2, "제목2", "내용2"));
+    articles.add(new Article(3, "제목3", "내용3"));
+  }
   public static void main(String[] args) {
     Scanner sc = new Scanner(System.in);
     Article lastArticle = null;
     int articleLastId = 0;
 
-    // 테스트 데이터 등록 시작
     List<Article> articles = new ArrayList<>();
-    articles.add(new Article(1, "제목1", "내용1"));
-    articles.add(new Article(2, "제목2", "내용2"));
-    articles.add(new Article(3, "제목3", "내용3"));
-    // 테스트 데이터 등록 끝
+    makeTestData(articles);
 
     System.out.println("== 게시판 v 0.1 ==");
     System.out.println("== 프로그램 시작 ==");
