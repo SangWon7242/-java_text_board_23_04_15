@@ -28,9 +28,10 @@ public class Main {
       String cmd = sc.nextLine();
 
       Rq rq = new Rq(cmd);
+      Map<String, String> params = rq.getParams();
 
       if (rq.getUrlPath().equals("exit")) {
-        break; // break를 만나면 반복문을 빠져나온다.
+        break;
       }
       else if (cmd.equals("/usr/article/list")) {
         System.out.println("== 게시물 리스트 ==");
@@ -58,12 +59,19 @@ public class Main {
         System.out.printf("%d번 게시물이 등록되었습니다.\n", id);
       }
       else if(rq.getUrlPath().equals("/usr/article/detail")) {
+        int id = Integer.parseInt(params.get("id"));
+
         if(articles.isEmpty()) {
           System.out.println("게시물이 존재하지 않습니다.");
           continue;
         }
 
-        Article article = articles.get(articles.size() - 1);
+        Article article = articles.get(id - 1);
+
+        if(id > articles.size()) {
+          System.out.println("게시물이 존재하지 않습니다.");
+          continue;
+        }
 
         System.out.println("== 게시물 상세보기 ==");
         System.out.printf("번호 : %d\n", article.id);
