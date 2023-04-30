@@ -6,8 +6,13 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
-  static int articleLastId  = 0;
-  static List<Article> articles = new ArrayList<>();
+  static int articleLastId;
+  static List<Article> articles;
+
+  static {
+    articleLastId = 0;
+    articles = new ArrayList<>();
+  }
 
   static void makeTestData(List<Article> articles) {
     for(int i = 0; i < 100; i++) {
