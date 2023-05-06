@@ -1,6 +1,5 @@
 package com.sbs.exam.board.controller;
 
-import com.sbs.exam.board.Article;
 import com.sbs.exam.board.Container;
 import com.sbs.exam.board.Member;
 import com.sbs.exam.board.Rq;
