@@ -7,7 +7,6 @@ import com.sbs.exam.board.Util;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class UsrArticleController {
 
