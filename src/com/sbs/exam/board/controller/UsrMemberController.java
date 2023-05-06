@@ -111,4 +111,16 @@ public class UsrMemberController {
     }
     return null;
   }
+
+  public void actionLogout(Rq rq) {
+    Member loginedMember = (Member) Container.session.getAttribute("loginedMember");
+
+    if(loginedMember == null) {
+      System.out.println("로그인 후 이용해주세요.");
+      return;
+    }
+
+    rq.removeSessionAttr("loginedMember");
+    System.out.println("로그아웃 되었습니다.");
+  }
 }
