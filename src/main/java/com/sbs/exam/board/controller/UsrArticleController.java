@@ -97,22 +97,17 @@ public class UsrArticleController {
       return;
     }
 
-    Article foundArticle = null;
+    Article article = getArticleById(id);
 
-    for (Article article : articles) {
-      if (article.getId() == id) {
-        foundArticle = article;
-        break;
-      } else if (article.getId() != id) {
-        System.out.println("해당 게시물은 존재하지 않습니다.");
-        return;
-      }
+    if(article == null) {
+      System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
+      return;
     }
 
     System.out.println("== 게시물 상세보기 ==");
-    System.out.printf("번호 : %d\n", foundArticle.getId());
-    System.out.printf("제목 : %s\n", foundArticle.getTitle());
-    System.out.printf("내용 : %s\n", foundArticle.getBody());
+    System.out.printf("번호 : %d\n", article.getId());
+    System.out.printf("제목 : %s\n", article.getTitle());
+    System.out.printf("내용 : %s\n", article.getBody());
   }
 
   public void actionModify(Rq rq) {
@@ -128,7 +123,12 @@ public class UsrArticleController {
       return;
     }
 
-    Article article = articles.get(id - 1);
+    Article article = getArticleById(id);
+
+    if(article == null) {
+      System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
+      return;
+    }
 
     System.out.printf("새 내용 : ");
     article.setTitle(Container.getSc().nextLine());
@@ -151,19 +151,24 @@ public class UsrArticleController {
       return;
     }
 
-    Article foundArticle = null;
+    Article article = getArticleById(id);
 
+    if(article == null) {
+      System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
+      return;
+    }
+
+    articles.remove(article);
+
+    System.out.printf("%d번 게시물을 삭제하였습니다.\n", article.getId());  }
+
+  private Article getArticleById(int id) {
     for (Article article : articles) {
       if (article.getId() == id) {
-        foundArticle = article;
-        break;
-      } else if (article.getId() != id) {
-        System.out.println("해당 게시물은 존재하지 않습니다.");
-        return;
+        return article;
       }
     }
 
-    articles.remove(foundArticle);
-
-    System.out.printf("%d번 게시물을 삭제하였습니다.\n", foundArticle.getId());  }
+    return null;
+  }
 }
