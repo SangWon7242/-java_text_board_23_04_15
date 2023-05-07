@@ -3,7 +3,6 @@ package com.sbs.exam.board.service;
 import com.sbs.exam.board.container.Container;
 import com.sbs.exam.board.dto.Article;
 import com.sbs.exam.board.repository.ArticleRepository;
-import com.sbs.exam.board.util.Util;
 
 import java.util.List;
 

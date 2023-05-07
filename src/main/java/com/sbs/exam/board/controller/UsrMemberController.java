@@ -3,30 +3,20 @@ package com.sbs.exam.board.controller;
 import com.sbs.exam.board.container.Container;
 import com.sbs.exam.board.dto.Member;
 import com.sbs.exam.board.dto.Rq;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.sbs.exam.board.service.MemberService;
 
 public class UsrMemberController {
-  int memberLastId;
-  List<Member> members;
+
+  private MemberService memberService;
 
   public UsrMemberController() {
-    memberLastId = 0;
-    members = new ArrayList<>();
-
-    makeTestData();
-
-    if (members.size() > 0) {
-      memberLastId = members.get(members.size() - 1).getId();
-    }
+    memberService = Container.getMemberService();
+    memberService.makeTestData();
   }
 
+
   void makeTestData() {
-    for (int i = 1; i <= 3; i++) {
-      int id = i;
-      members.add(new Member(id, "user" + id, "1234"));
-    }
+
   }
   public void actionJoin(Rq rq) {
     System.out.println("== 회원 가입 ==");
@@ -35,6 +25,13 @@ public class UsrMemberController {
 
     if(loginId.trim().length() == 0) {
       System.out.println("로그인 아이디를 입력해주세요.");
+      return;
+    }
+
+    Member member = memberService.getMemberByLoginId(loginId);
+
+    if(member != null) {
+      System.out.printf("%s(은)는 이미 사용중인 아이디입니다.\n", loginId);
       return;
     }
 
@@ -59,13 +56,10 @@ public class UsrMemberController {
       return;
     }
 
-    int id = ++memberLastId;
+    int id = memberService.join(loginId, loginPw);
 
-    Member member = new Member(id, loginId, loginPw);
-    members.add(member);
-
-    System.out.printf("%s님 회원 가입을 환영합니다.\n", member.getLoginId());
-    System.out.printf("%d번이 회원이 등록되었습니다.\n", member.getId());
+    System.out.printf("%s님 회원 가입을 환영합니다.\n", loginId);
+    System.out.printf("%d번이 회원이 등록되었습니다.\n", id);
   }
 
   public void actionLogin(Rq rq) {
@@ -77,7 +71,7 @@ public class UsrMemberController {
       return;
     }
 
-    Member member = getMemberLoginId(loginId);
+    Member member = memberService.getMemberByLoginId(loginId);
 
     if(member == null) {
       System.out.println("해당 회원은 존재하지 않습니다.");
@@ -101,15 +95,6 @@ public class UsrMemberController {
     rq.setSessionAttr("loginedMember", member);
 
     System.out.printf("%s님 환영합니다.\n", member.getLoginId());
-  }
-
-  private Member getMemberLoginId(String loginId) {
-    for(Member member : members) {
-      if(member.getLoginId().equals(loginId)) {
-        return member;
-      }
-    }
-    return null;
   }
 
   public void actionLogout(Rq rq) {

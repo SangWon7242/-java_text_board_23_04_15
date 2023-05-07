@@ -4,9 +4,7 @@ import com.sbs.exam.board.container.Container;
 import com.sbs.exam.board.dto.Article;
 import com.sbs.exam.board.dto.Rq;
 import com.sbs.exam.board.service.ArticleService;
-import com.sbs.exam.board.util.Util;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UsrArticleController {
