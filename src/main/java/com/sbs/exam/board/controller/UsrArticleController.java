@@ -11,48 +11,24 @@ import java.util.List;
 
 public class UsrArticleController {
   private ArticleService articleService;
-  private List<Article> articles;
 
   public UsrArticleController() {
     articleService = Container.getArticleService();
     articleService.makeTestData();
-    articles = articleService.getArticles();
   }
 
   public void showList(Rq rq) {
+    String searchKeyword = rq.getParam("searchKeyword", "");
+    String orderBy = rq.getParam("orderBy", "idDesc");
+
     System.out.println("== 게시물 리스트 ==");
     System.out.println("--------------------");
     System.out.println("번호 / 제목");
     System.out.println("--------------------");
 
-    String searchKeyword = rq.getParam("searchKeyword", "");
+    List<Article> articles = articleService.getArticles(searchKeyword, orderBy);
 
-    // 검색시작
-    List<Article> filteredArticles = articles;
-
-    if(searchKeyword.length() > 0) {
-      filteredArticles = new ArrayList<>();
-
-      for (Article article : articles) {
-        boolean matched = article.getTitle().contains(searchKeyword) || article.getBody().contains(searchKeyword);
-
-        if (matched) {
-          filteredArticles.add(article);
-        }
-      }
-    }
-    // 검색 끝
-
-    List<Article> sortedArticles = filteredArticles;
-
-    String orderBy = rq.getParam("orderBy", "idDesc");
-    boolean orderByIdDesc = orderBy.equals("idDesc");
-
-    if (orderByIdDesc) {
-      sortedArticles = Util.reverseList(sortedArticles);
-    }
-
-    for (Article article : sortedArticles) {
+    for (Article article : articles) {
       System.out.printf("%d / %s\n", article.getId(), article.getTitle());
     }
   }
@@ -77,11 +53,6 @@ public class UsrArticleController {
       return;
     }
 
-    if (id > articles.size()) {
-      System.out.println("게시물이 존재하지 않습니다.");
-      return;
-    }
-
     Article article = articleService.getArticleById(id);
 
     if(article == null) {
@@ -100,11 +71,6 @@ public class UsrArticleController {
 
     if(id == 0) {
       System.out.println("id를 올바르게 입력해주세요.");
-      return;
-    }
-
-    if (articles.isEmpty() || id > articles.size()) {
-      System.out.println("게시물이 존재하지 않습니다.");
       return;
     }
 
@@ -131,11 +97,6 @@ public class UsrArticleController {
       return;
     }
 
-    if (articles.isEmpty() || id > articles.size()) {
-      System.out.println("게시물이 존재하지 않습니다.");
-      return;
-    }
-
     Article article = articleService.getArticleById(id);
 
     if(article == null) {
@@ -143,8 +104,9 @@ public class UsrArticleController {
       return;
     }
 
-    articleService.deleteArticleById(id);
+    articleService.deleteArticleById(article.getId());
 
-    System.out.printf("%d번 게시물을 삭제하였습니다.\n", article.getId());  }
+    System.out.printf("%d번 게시물을 삭제하였습니다.\n", id);
+  }
 
 }
