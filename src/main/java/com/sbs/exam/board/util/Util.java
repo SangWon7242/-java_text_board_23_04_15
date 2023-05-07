@@ -1,4 +1,4 @@
-package com.sbs.exam.board;
+package com.sbs.exam.board.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Util {
-  static Map<String, String> getParamsForUrl(String url) {
+  public static Map<String, String> getParamsForUrl(String url) {
     Map<String, String> params = new HashMap<>();
 
     String[] urlBits = url.split("\\?", 2);

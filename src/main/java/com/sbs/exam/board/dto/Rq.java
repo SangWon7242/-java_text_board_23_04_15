@@ -1,4 +1,8 @@
-package com.sbs.exam.board;
+package com.sbs.exam.board.dto;
+
+import com.sbs.exam.board.util.Util;
+import com.sbs.exam.board.container.Container;
+import com.sbs.exam.board.session.Session;
 
 import java.util.Map;
 public class Rq {
@@ -6,7 +10,7 @@ public class Rq {
   private Map<String, String> params;
   private String urlPath;
 
-  Rq(String url) {
+  public Rq(String url) {
     this.url = url;
     params = Util.getParamsForUrl(this.url);
     urlPath = Util.getUrlPathFromUrl(this.url);
@@ -47,7 +51,7 @@ public class Rq {
   }
 
   public void removeSessionAttr(String key) {
-    Session session = Container.session;
+    Session session = Container.getSession();
     session.removeAttribute(key);
   }
 }

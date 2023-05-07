@@ -1,9 +1,9 @@
 package com.sbs.exam.board.controller;
 
-import com.sbs.exam.board.Article;
-import com.sbs.exam.board.Container;
-import com.sbs.exam.board.Rq;
-import com.sbs.exam.board.Util;
+import com.sbs.exam.board.dto.Article;
+import com.sbs.exam.board.container.Container;
+import com.sbs.exam.board.dto.Rq;
+import com.sbs.exam.board.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ public class UsrArticleController {
     makeTestData();
 
     if (articles.size() > 0) {
-      articleLastId = articles.get(articles.size() - 1).id;
+      articleLastId = articles.get(articles.size() - 1).getId();
     }
   }
 
@@ -46,7 +46,7 @@ public class UsrArticleController {
       filteredArticles = new ArrayList<>();
 
       for (Article article : articles) {
-        boolean matched = article.title.contains(searchKeyword) || article.body.contains(searchKeyword);
+        boolean matched = article.getTitle().contains(searchKeyword) || article.getBody().contains(searchKeyword);
 
         if (matched) {
           filteredArticles.add(article);
@@ -65,23 +65,23 @@ public class UsrArticleController {
     }
 
     for (Article article : sortedArticles) {
-      System.out.printf("%d / %s\n", article.id, article.title);
+      System.out.printf("%d / %s\n", article.getId(), article.getTitle());
     }
   }
 
   public void actionWrite(Rq rq) {
     System.out.println("== 게시물 등록 ==");
     System.out.printf("제목 : ");
-    String title = Container.sc.nextLine();
+    String title = Container.getSc().nextLine();
     System.out.printf("내용 : ");
-    String body = Container.sc.nextLine();
+    String body = Container.getSc().nextLine();
     int id = articleLastId + 1;
     articleLastId++;
 
     Article article = new Article(id, title, body);
     articles.add(article);
 
-    System.out.printf("%d번 게시물이 등록되었습니다.\n", id);
+    System.out.printf("%d번 게시물이 등록되었습니다.\n", article.getId());
   }
 
   public void showDetail(Rq rq) {
@@ -100,19 +100,19 @@ public class UsrArticleController {
     Article foundArticle = null;
 
     for (Article article : articles) {
-      if (article.id == id) {
+      if (article.getId() == id) {
         foundArticle = article;
         break;
-      } else if (article.id != id) {
+      } else if (article.getId() != id) {
         System.out.println("해당 게시물은 존재하지 않습니다.");
         return;
       }
     }
 
     System.out.println("== 게시물 상세보기 ==");
-    System.out.printf("번호 : %d\n", foundArticle.id);
-    System.out.printf("제목 : %s\n", foundArticle.title);
-    System.out.printf("내용 : %s\n", foundArticle.body);
+    System.out.printf("번호 : %d\n", foundArticle.getId());
+    System.out.printf("제목 : %s\n", foundArticle.getTitle());
+    System.out.printf("내용 : %s\n", foundArticle.getBody());
   }
 
   public void actionModify(Rq rq) {
@@ -131,11 +131,11 @@ public class UsrArticleController {
     Article article = articles.get(id - 1);
 
     System.out.printf("새 내용 : ");
-    article.title = Container.sc.nextLine();
+    article.setTitle(Container.getSc().nextLine());
     System.out.printf("새 제목 : ");
-    article.body = Container.sc.nextLine();
+    article.setBody(Container.getSc().nextLine());
 
-    System.out.printf("%d번 게시물을 수정하였습니다.\n", id);
+    System.out.printf("%d번 게시물을 수정하였습니다.\n", article.getId());
   }
 
   public void actionDelete(Rq rq) {
@@ -154,10 +154,10 @@ public class UsrArticleController {
     Article foundArticle = null;
 
     for (Article article : articles) {
-      if (article.id == id) {
+      if (article.getId() == id) {
         foundArticle = article;
         break;
-      } else if (article.id != id) {
+      } else if (article.getId() != id) {
         System.out.println("해당 게시물은 존재하지 않습니다.");
         return;
       }
@@ -165,6 +165,5 @@ public class UsrArticleController {
 
     articles.remove(foundArticle);
 
-    System.out.printf("%d번 게시물을 삭제하였습니다.\n", id);
-  }
+    System.out.printf("%d번 게시물을 삭제하였습니다.\n", foundArticle.getId());  }
 }
