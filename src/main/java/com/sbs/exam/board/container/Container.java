@@ -1,8 +1,10 @@
 package com.sbs.exam.board.container;
 
-import com.sbs.exam.board.session.Session;
 import com.sbs.exam.board.controller.UsrArticleController;
 import com.sbs.exam.board.controller.UsrMemberController;
+import com.sbs.exam.board.repository.ArticleRepository;
+import com.sbs.exam.board.service.ArticleService;
+import com.sbs.exam.board.session.Session;
 import lombok.Getter;
 
 import java.util.Scanner;
@@ -12,6 +14,12 @@ public class Container {
   private static Scanner sc;
   @Getter
   private static Session session;
+
+  @Getter
+  private static ArticleRepository articleRepository;
+
+  @Getter
+  private static ArticleService articleService;
   @Getter
   private static UsrArticleController usrArticleController;
   @Getter
@@ -20,8 +28,12 @@ public class Container {
   static {
     sc = new Scanner(System.in);
     session = new Session();
-    usrArticleController = new UsrArticleController();
+
+    articleRepository = new ArticleRepository();
+    articleService = new ArticleService();
+
     usrMemberController = new UsrMemberController();
+    usrArticleController = new UsrArticleController();
   }
 
   public static Session getSession() {
